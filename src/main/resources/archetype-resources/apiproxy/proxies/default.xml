@@ -12,7 +12,7 @@
     </PostFlow>
     <Flows/>
     <HTTPProxyConnection>
-        <BasePath>${basepath}</BasePath>
+        <BasePath>/${basepath}</BasePath>
         <Properties/>
         <VirtualHost>default</VirtualHost>
         <VirtualHost>secure</VirtualHost>

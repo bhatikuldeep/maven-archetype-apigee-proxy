@@ -9,6 +9,11 @@
    <packaging>pom</packaging>
    <pluginRepositories>
       <pluginRepository>
+         <id>sonatype-snapshots</id>
+         <name>Sonatype Snapshots</name>
+         <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+      </pluginRepository>
+      <pluginRepository>
          <id>central</id>
          <name>Maven Plugin Repository</name>
          <url>http://repo1.maven.org/maven2</url>
@@ -28,24 +33,24 @@
       <project.root.dir>${basedir}</project.root.dir>
       <target.root.dir>${basedir}/target</target.root.dir>
       <deployment.suffix>${user.name}</deployment.suffix>
-      <commit />
-      <branch></branch>
+      <commit>${git.commit.id}</commit>
+      <branch>${git.branch}</branch>
    </properties>
    <!-- This is where you add the environment specific properties under various profile names -->
    <!-- For apigee.options, refer to "Advanced Configuration Options" under https://github.com/apigee/apigee-deploy-maven-plugin#pom-xml-sample -->
    <profiles>
       <profile>
-         <id>test</id>
+         <id>default</id>
          <properties>
-            <apigee.profile>test</apigee.profile>
-            <apigee.env>test</apigee.env>
+            <apigee.profile>${env.APIGEE_ENV}</apigee.profile>
+            <apigee.env>${env.APIGEE_ENV}</apigee.env>
             <apigee.hosturl>https://api.enterprise.apigee.com</apigee.hosturl>
             <apigee.apiversion>v1</apigee.apiversion>
             <apigee.org>${env.APIGEE_ORG}</apigee.org>
             <apigee.username>${env.APIGEE_USERNAME}</apigee.username>
             <apigee.password>${env.APIGEE_PASSWORD}</apigee.password>
-            <api.northbound.domain>${env.API_DOMAIN_TEST}</api.northbound.domain>
-            <api.testtag>~@wip</api.testtag>
+            <apigee.options>override</apigee.options>
+            <apigee.override.delay>5</apigee.override.delay>
          </properties>
       </profile>
    </profiles>
@@ -59,7 +64,34 @@
             </plugin>
          </plugins>
       </pluginManagement>
+      <!-- git-commit-id-plugin to populate git properties to update in description of the API proxy -->
       <plugins>
+         <plugin>
+				<groupId>pl.project13.maven</groupId>
+				<artifactId>git-commit-id-plugin</artifactId>
+				<version>2.2.6</version>
+				<executions>
+					<execution>
+						<id>get-the-git-infos</id>
+						<phase>initialize</phase>
+						<goals>
+							<goal>revision</goal>
+						</goals>
+					</execution>
+               <execution>
+                        <id>validate-the-git-infos</id>
+                        <goals>
+                            <goal>validateRevision</goal>
+                        </goals>
+                    </execution>
+				</executions>
+				<configuration>
+               <failOnNoGitDirectory>false</failOnNoGitDirectory>
+					<generateGitPropertiesFile>true</generateGitPropertiesFile>
+               <skipPoms>false</skipPoms>
+				</configuration>
+			</plugin>
+         <!-- git-commit-id-plugin ends here -->
          <plugin>
             <artifactId>maven-resources-plugin</artifactId>
             <version>2.6</version>
@@ -103,12 +135,12 @@
             <configuration>
                <basedir>${target.root.dir}</basedir>
                <includes>
-                  <include>apiproxy/hello-world-maven-deploy.xml</include>
+                  <include>apiproxy/${project.artifactId}.xml</include>
                </includes>
                <replacements>
                   <replacement>
                      <token>@description</token>
-                     <value>Sample Proxy - to demonstrate Apigee Maven Deployment - commit ${commit} from ${branch} branch by ${user.name}</value>
+                     <value></value>
                   </replacement>
                </replacements>
             </configuration>
@@ -142,13 +174,63 @@
                <!-- npm install -->
                <execution>
                   <id>npm-install</id>
-                  <phase>validate</phase>
+                  <phase>initialize</phase>
                   <goals>
                      <goal>exec</goal>
                   </goals>
                   <configuration>
                      <executable>npm</executable>
                      <commandlineArgs>install</commandlineArgs>
+                  </configuration>
+               </execution>
+
+               <!-- Required: The following will ensure `npm install` is called
+					     before anything else during the 'Clean Lifecycle' -->
+					<execution>
+						<id>npm install (clean)</id>
+						<goals>
+							<goal>exec</goal>
+						</goals>
+						<phase>pre-clean</phase>
+						<configuration>
+							<executable>npm</executable>
+							<arguments>
+								<argument>install</argument>
+							</arguments>
+						</configuration>
+					</execution>
+
+               <!-- Optional: The following will output the npm configuration.
+					     I do this so my CI logs will show the npm information used
+							 for the build -->
+					<execution>
+						<id>npm config list (validate)</id>
+						<goals>
+							<goal>exec</goal>
+						</goals>
+						<phase>validate</phase>
+						<configuration>
+							<executable>npm</executable>
+							<arguments>
+								<argument>config</argument>
+								<argument>list</argument>
+							</arguments>
+						</configuration>
+					</execution>
+
+
+               <!-- Integration Testing-->
+               <execution>
+                  <id>integration-tests</id>
+                  <phase>install</phase>
+                  <goals>
+                     <goal>exec</goal>
+                  </goals>
+                  <configuration>
+                     <executable>node_modules/newman/bin/newman.js</executable>
+                     <commandlineArgs>
+                     run tests/apiproxy.postman_collection.json -e tests/${apigee.env}.postman_environment.json
+                     </commandlineArgs>
                   </configuration>
                </execution>
             </executions>
