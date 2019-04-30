@@ -9,7 +9,7 @@
 			"name": "200 OK /${basepath}/json",
 			"event": [
 				{
-					"listen": "test",
+					"listen": "${environment}",
 					"script": {
 						"id": "f5f69d3c-a0a6-4bfd-9549-55a3e57f4246",
 						"exec": [

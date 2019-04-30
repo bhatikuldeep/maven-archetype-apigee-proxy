@@ -17,7 +17,7 @@
             <defaultValue>Sample maven-archetype-apigee-proxy API Proxy</defaultValue>
         </requiredProperty>
         <requiredProperty key="proxy_endpoint">
-            <defaultValue>https://euw1-partner05-test.apigee.net</defaultValue>
+            <defaultValue>https://euw1-partner05-${environment}.apigee.net</defaultValue>
         </requiredProperty>
     </requiredProperties>
     <fileSets>

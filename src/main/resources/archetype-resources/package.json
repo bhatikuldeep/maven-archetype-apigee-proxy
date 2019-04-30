@@ -1,7 +1,15 @@
 {
 	"name": "${proxyname}",
+	"description": "${description}",
 	"version": "1.0.0",
 	"devDependencies": {
 		"newman": "latest"
-	}
+	},
+	"repository": {
+		"type": "git",
+		"url": ""
+	},
+	"keywords": [],
+    "author": "",
+    "license": ""
 }

@@ -4,7 +4,7 @@
     <ConfigurationVersion majorVersion="4" minorVersion="0"/>
     <CreatedAt>1551440047387</CreatedAt>
     <CreatedBy>defaultUser</CreatedBy>
-    <Description>@description</Description>
+    <Description>${description} - @description</Description>
     <DisplayName>${proxyname}</DisplayName>
     <LastModifiedAt>1551440047387</LastModifiedAt>
     <LastModifiedBy>defaultUser</LastModifiedBy>
