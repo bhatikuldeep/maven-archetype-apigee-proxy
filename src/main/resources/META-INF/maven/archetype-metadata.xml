@@ -5,7 +5,7 @@
     
     <requiredProperties>
         <requiredProperty key="proxyname">
-            <defaultValue>hello-world-v2</defaultValue>
+            <defaultValue>${artifactId}</defaultValue>
         </requiredProperty>
         <requiredProperty key="basepath">
             <defaultValue>v2/hello-world</defaultValue>
@@ -16,9 +16,8 @@
         <requiredProperty key="description">
             <defaultValue>Sample maven-archetype-apigee-proxy API Proxy</defaultValue>
         </requiredProperty>
-        <requiredProperty key="proxy_endpoint">
-            <defaultValue>https://euw1-partner05-${environment}.apigee.net</defaultValue>
-        </requiredProperty>
+        <!-- Required to set in the Postman collection to hit the endpoint -->
+        <requiredProperty key="proxy_endpoint"></requiredProperty>
     </requiredProperties>
     <fileSets>
         <fileSet filtered="true" packaged="false" encoding="UTF-8">
