@@ -6,39 +6,44 @@ Use this project to create a apigee edge proxy skeleton, you can create and uplo
 This project will create a sample proxy project directory only, in order to deploy, please follow instruction [below](#how-to-use-it);
 
 Feature supported;
-    - Proxy Template with basic flow - √
-	- Integration Tests (with postman/newman) - √
-    - Accept Proxy Name, basepath and description - √
+- Proxy Template with basic flow - √
+- Integration Tests (with postman/newman) - √
+- Accept Proxy Name, basepath and description - √
 
 Features (in-wishlist)
-     - Generate package type - like proxy, sharedflow etc.
-     - Proxy Name convention - postfix version in proxy name, e.g. hello-world-v1 
-     - API First Approach - generate proxy bundle/resource-flow based on Open Specification 2.0/3.0
+- Generate package type - like proxy, sharedflow etc.
+- Proxy Name convention - postfix version in proxy name, e.g. hello-world-v1 
+- API First Approach - generate proxy bundle/resource-flow based on Open Specification 2.0/3.0
 
 ## Prerequisite
 1. Maven 
 
 ## How to use it
-1. Using this repo as local maven repository;    
-    
-    a) `$ git clone https://github.com/bhatikuldeep/maven-archetype-apigee-proxy.git`
-    b) `$ cd maven-archetype-apigee-proxy`
-    c) Install this archtype locally- `$ cd mvn clean install`
-    d) Generate the proxy bundle
+### Using this repo as local maven repository;       
+1. Clone this repo
+    `$ git clone https://github.com/bhatikuldeep/maven-archetype-apigee-proxy.git`
+2. `$ cd maven-archetype-apigee-proxy`
+3. Install this archtype locally- `$ mvn clean install`
+4. Generate the proxy bundle    
     - for Basic use;
         - open a new terminal;
         - `$ cd ..`
         - now run this command to generate proxy skeleton 
-        ``` sh $ mvn archetype:generate -DarchetypeGroupId=apigee-proxy-groupId -DarchetypeArtifactId=maven-archetype-apigee-proxy -DarchetypeVersion=1.0-SNAPSHOT -DgroupId=apigee -DartifactId=sample-apigee-proxy```    
+        ``` bash $ mvn archetype:generate -DarchetypeGroupId=apigee-proxy-groupId -DarchetypeArtifactId=maven-archetype-apigee-proxy -DarchetypeVersion=1.0-SNAPSHOT -DgroupId=apigee -DartifactId=sample-apigee-proxy```    
     - for Advanced use;
-        -  additional option supported are - `proxyname` (optional, default value = sample-apigee-proxy), `basepath` (optional, default value = v2/hello-world ), `environment` (optional, default value = test), `description` (optional, default value = Sample maven-archetype-apigee-proxy API Proxy) and `proxy_endpoint` (requried = yes, no default value)
+        -  additional supported options are 
+            - `proxyname` (optional, default value = sample-apigee-proxy), 
+            - `basepath` (optional, default value = v2/hello-world ), 
+            - `environment` (optional, default value = test), 
+            - `description` (optional, default value = Sample maven-archetype-apigee-proxy API Proxy) and 
+            - `proxy_endpoint` (requried = yes, no default value)
         -  now run this command to generate proxy skeleton 
-            ``` sh $ mvn archetype:generate -DarchetypeGroupId=apigee-proxy-groupId -DarchetypeArtifactId=maven-archetype-apigee-proxy -DarchetypeVersion=1.0-SNAPSHOT -DgroupId=apigee -DartifactId=sample-apigee-proxy -Dproxyname=sample-apigee-proxy -Dbasepath=v2/hello-world -Denvironment=test -Ddescription="Sample maven-archetype-apigee-proxy API Proxy" -Dproxy_endpoint=https://yourorgname-yourenv.apigee.net```
-    - Deployment 
-        - step d) will create a `sample-apigee-proxy` folder with apigee edge compatible directory structure;
-        - for deployment use `README.md` file from `sample-apigee-proxy` direcotry, which has detailed instruction. Since this project is used to generate proxy skeleton, it does not make sense to have deployment instruction part of this `README.md`, instead it is included in just generated proxy you just created.
+            ``` bash $ mvn archetype:generate -DarchetypeGroupId=apigee-proxy-groupId -DarchetypeArtifactId=maven-archetype-apigee-proxy -DarchetypeVersion=1.0-SNAPSHOT -DgroupId=apigee -DartifactId=sample-apigee-proxy -Dproxyname=sample-apigee-proxy -Dbasepath=v2/hello-world -Denvironment=test -Ddescription="Sample maven-archetype-apigee-proxy API Proxy" -Dproxy_endpoint=https://yourorgname-yourenv.apigee.net```
+5. Deployment 
+    - step 4 will create a `sample-apigee-proxy` folder with apigee edge compatible directory structure;
+    - for deployment use `README.md` file from `sample-apigee-proxy` direcotry, which has detailed instruction. Since this project is used to generate proxy skeleton, it does not make sense to have deployment instruction part of this `README.md`, instead it is included in just generated proxy you just created.
             
-2. Using Maven Central Repo - Todo
+### Using Maven Central Repo - Todo
 
 ## Issues, questions and feedback
 https://github.com/bhatikuldeep/maven-archetype-apigee-proxy/issues
