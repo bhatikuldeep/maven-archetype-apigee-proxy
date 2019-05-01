@@ -29,7 +29,7 @@ Features (in-wishlist)
         - open a new terminal;
         - `$ cd ..`
         - now run this command to generate proxy skeleton 
-        ``` bash $ mvn archetype:generate -DarchetypeGroupId=apigee-proxy-groupId -DarchetypeArtifactId=maven-archetype-apigee-proxy -DarchetypeVersion=1.0-SNAPSHOT -DgroupId=apigee -DartifactId=sample-apigee-proxy```    
+        ``` bash $ mvn archetype:generate -DarchetypeGroupId=io.github.bhatikuldeep -DarchetypeArtifactId=maven-archetype-apigee-proxy -DarchetypeVersion=1.0-SNAPSHOT -DgroupId=apigee -DartifactId=sample-apigee-proxy```    
     - for Advanced use;
         -  additional supported options are 
             - `proxyname` (optional, default value = sample-apigee-proxy), 
@@ -38,7 +38,7 @@ Features (in-wishlist)
             - `description` (optional, default value = Sample maven-archetype-apigee-proxy API Proxy) and 
             - `proxy_endpoint` (requried = yes, no default value)
         -  now run this command to generate proxy skeleton 
-            ``` bash $ mvn archetype:generate -DarchetypeGroupId=apigee-proxy-groupId -DarchetypeArtifactId=maven-archetype-apigee-proxy -DarchetypeVersion=1.0-SNAPSHOT -DgroupId=apigee -DartifactId=sample-apigee-proxy -Dproxyname=sample-apigee-proxy -Dbasepath=v2/hello-world -Denvironment=test -Ddescription="Sample maven-archetype-apigee-proxy API Proxy" -Dproxy_endpoint=https://yourorgname-yourenv.apigee.net```
+            ``` bash $ mvn archetype:generate -DarchetypeGroupId=io.github.bhatikuldeep -DarchetypeArtifactId=maven-archetype-apigee-proxy -DarchetypeVersion=1.0-SNAPSHOT -DgroupId=apigee -DartifactId=sample-apigee-proxy -Dproxyname=sample-apigee-proxy -Dbasepath=v2/hello-world -Denvironment=test -Ddescription="Sample maven-archetype-apigee-proxy API Proxy" -Dproxy_endpoint=https://yourorgname-yourenv.apigee.net```
 5. Deployment 
     - step 4 will create a `sample-apigee-proxy` folder with apigee edge compatible directory structure;
     - for deployment use `README.md` file from `sample-apigee-proxy` direcotry, which has detailed instruction. Since this project is used to generate proxy skeleton, it does not make sense to have deployment instruction part of this `README.md`, instead it is included in just generated proxy you just created.
