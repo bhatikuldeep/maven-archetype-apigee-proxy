@@ -1,5 +1,5 @@
 {
-	"name": "${proxyname}",
+	"name": "${artifactId}",
 	"description": "${description}",
 	"version": "1.0.0",
 	"devDependencies": {
@@ -10,6 +10,6 @@
 		"url": ""
 	},
 	"keywords": [],
-    "author": "",
-    "license": ""
+	"author": "",
+	"license": ""
 }

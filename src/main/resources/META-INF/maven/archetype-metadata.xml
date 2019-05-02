@@ -2,11 +2,8 @@
         http://maven.apache.org/xsd/archetype-descriptor-1.0.0.xsd" 
     xmlns="http://maven.apache.org/plugins/maven-archetype-plugin/archetype-descriptor/1.0.0" 
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="custom-apigee-edge-proxy-generator">
-    
+
     <requiredProperties>
-        <requiredProperty key="proxyname">
-            <defaultValue>${artifactId}</defaultValue>
-        </requiredProperty>
         <requiredProperty key="basepath">
             <defaultValue>v2/hello-world</defaultValue>
         </requiredProperty>
