@@ -1,6 +1,6 @@
 # Apigee Edge - Proxy Template Generator (with maven archtype)
 
-## version 1.1 - with Apigee Edge Environment Configuration Support
+## version 1.2 - with Apigee Edge Environment Configuration Support
 
 This is an effort to automate apigee edge proxy generation - with custom maven archtype.
 Use this project to create a apigee edge proxy skeleton, you can create and upload a sample proxy in few steps.
