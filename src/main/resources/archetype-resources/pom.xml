@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+   <modelVersion>4.0.0</modelVersion>
+   <groupId>${groupId}</groupId>
+   <artifactId>${artifactId}</artifactId>
+   <version>${version}</version>
+   <name>${artifactId}</name>
+   <packaging>pom</packaging>
+   <pluginRepositories>
+      <pluginRepository>
+         <id>sonatype-snapshots</id>
+         <name>Sonatype Snapshots</name>
+         <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+      </pluginRepository>
+      <pluginRepository>
+         <id>central</id>
+         <name>Maven Plugin Repository</name>
+         <url>http://repo1.maven.org/maven2</url>
+         <layout>default</layout>
+         <snapshots>
+            <enabled>false</enabled>
+         </snapshots>
+         <releases>
+            <updatePolicy>never</updatePolicy>
+         </releases>
+      </pluginRepository>
+   </pluginRepositories>
+   <properties>
+      <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+      <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+      <org.slf4j.simpleLogger.defaultLogLevel>info</org.slf4j.simpleLogger.defaultLogLevel>
+      <project.root.dir>${basedir}</project.root.dir>
+      <target.root.dir>${basedir}/target</target.root.dir>
+      <commit>${git.commit.id}</commit>
+      <branch>${git.branch}</branch>
+   </properties>
+   <!-- This is where you add the environment specific properties under various profile names -->
+   <!-- For apigee.options, refer to "Advanced Configuration Options" under https://github.com/apigee/apigee-deploy-maven-plugin#pom-xml-sample -->
+   <profiles>
+      <profile>
+         <id>default</id>
+         <properties>
+            <!-- required -->
+            <apigee.profile>${env.APIGEE_ENV}</apigee.profile>
+            <apigee.env>${env.APIGEE_ENV}</apigee.env>
+            <apigee.hosturl>https://api.enterprise.apigee.com</apigee.hosturl>
+            <apigee.apiversion>v1</apigee.apiversion>
+            <apigee.org>${env.APIGEE_ORG}</apigee.org>
+            <apigee.username>${env.APIGEE_USERNAME}</apigee.username>
+            <apigee.password>${env.APIGEE_PASSWORD}</apigee.password>
+            <apigee.apikey>${env.APIGEE_APIKEY}</apigee.apikey>
+            <!-- required ends -->
+
+            <!-- optional -->
+            <apigee.authtype>basic</apigee.authtype>            <!-- optional: oauth|basic(default) -->
+            <apigee.tokenurl>https://login.apigee.com/oauth/token</apigee.tokenurl>            <!-- optional: oauth -->
+            <apigee.mfatoken>${mfatoken}</apigee.mfatoken>            <!-- optional: mfa -->
+            <apigee.clientid>${clientId}</apigee.clientid>            <!-- optional: Oauth Client Id - Default is edgecli-->
+            <apigee.clientsecret>${clientSecret}</apigee.clientsecret>            <!-- optional: Oauth Client Secret Default is edgeclisecret-->
+            <apigee.bearer>${bearer}</apigee.bearer>            <!-- optional: Bearer token override -->
+            <apigee.refresh>${refresh}</apigee.refresh>            <!-- optional: Refresh token override -->
+            <!-- optional ends -->
+
+            <apigee.options>override</apigee.options>
+            <apigee.override.delay>5</apigee.override.delay>
+         </properties>
+      </profile>
+   </profiles>
+   <build>
+      <plugins>
+         <!-- git-commit-id-plugin to populate git properties to update in description of the API proxy -->
+         <plugin>
+            <groupId>pl.project13.maven</groupId>
+            <artifactId>git-commit-id-plugin</artifactId>
+            <version>2.2.6</version>
+            <executions>
+               <execution>
+                  <id>get-the-git-infos</id>
+                  <phase>initialize</phase>
+                  <goals>
+                     <goal>revision</goal>
+                  </goals>
+               </execution>
+               <execution>
+                  <id>validate-the-git-infos</id>
+                  <goals>
+                     <goal>validateRevision</goal>
+                  </goals>
+               </execution>
+            </executions>
+            <configuration>
+               <failOnNoGitDirectory>true</failOnNoGitDirectory>
+               <echo message="There must be a git repository, if there's none, create one."/>
+               <generateGitPropertiesFile>true</generateGitPropertiesFile>
+               <skipPoms>false</skipPoms>
+            </configuration>
+         </plugin>
+         <!-- git-commit-id-plugin ends here -->
+         <plugin>
+            <artifactId>maven-resources-plugin</artifactId>
+            <version>2.6</version>
+            <executions>
+               <execution>
+                  <id>copy-resources</id>
+                  <phase>process-resources</phase>
+                  <goals>
+                     <goal>copy-resources</goal>
+                  </goals>
+                  <configuration>
+                     <overwrite>true</overwrite>
+                     <resources>
+                        <resource>
+                           <!--source -->
+                           <directory>${project.root.dir}</directory>
+                           <filtering>true</filtering>
+                           <includes>
+                              <include>apiproxy/**</include>
+                           </includes>
+                        </resource>
+                     </resources>
+                     <!--target -->
+                     <outputDirectory>${target.root.dir}</outputDirectory>
+                  </configuration>
+               </execution>
+            </executions>
+         </plugin>
+         <plugin>
+            <groupId>io.apigee.build-tools.enterprise4g</groupId>
+            <artifactId>apigee-edge-maven-plugin</artifactId>
+            <version>1.1.7</version>
+            <executions>
+               <execution>
+                  <id>configure-bundle-step</id>
+                  <phase>package</phase>
+                  <goals>
+                     <goal>configure</goal>
+                  </goals>
+               </execution>
+               <execution>
+                  <id>deploy-bundle</id>
+                  <phase>install</phase>
+                  <goals>
+                     <goal>deploy</goal>
+                  </goals>
+               </execution>
+            </executions>
+         </plugin>
+         <plugin>
+            <groupId>com.apigee.edge.config</groupId>
+            <artifactId>apigee-config-maven-plugin</artifactId>
+            <version>1.3.2</version>
+            <executions>
+               <execution>
+                  <id>create-config-cache</id>
+                  <phase>verify</phase>
+                  <goals>
+                     <goal>caches</goal>
+                  </goals>
+               </execution>
+               <execution>
+                  <id>create-config-targetserver</id>
+                  <phase>verify</phase>
+                  <goals>
+                     <goal>targetservers</goal>
+                  </goals>
+               </execution>
+               <execution>
+                  <id>create-config-kvm</id>
+                  <phase>verify</phase>
+                  <goals>
+                     <goal>keyvaluemaps</goal>
+                  </goals>
+               </execution>
+               <execution>
+                  <id>create-config-resourcefiles</id>
+                  <phase>install</phase>
+                  <goals>
+                     <goal>resourcefiles</goal>
+                  </goals>
+               </execution>
+               <execution>
+                  <id>create-config-apiproduct</id>
+                  <phase>install</phase>
+                  <goals>
+                     <goal>apiproducts</goal>
+                  </goals>
+               </execution>
+               <execution>
+                  <id>create-config-developer</id>
+                  <phase>install</phase>
+                  <goals>
+                     <goal>developers</goal>
+                  </goals>
+               </execution>
+               <execution>
+                  <id>create-config-app</id>
+                  <phase>install</phase>
+                  <goals>
+                     <goal>apps</goal>
+                  </goals>
+               </execution>
+               <execution>
+                  <id>create-config-flowhooks</id>
+                  <phase>verify</phase>
+                  <goals>
+                     <goal>flowhooks</goal>
+                  </goals>
+               </execution>
+               <execution>
+                  <id>create-config-virtualhosts</id>
+                  <phase>verify</phase>
+                  <goals>
+                     <goal>virtualhosts</goal>
+                  </goals>
+               </execution>
+               <execution>
+                  <id>create-config-reports</id>
+                  <phase>install</phase>
+                  <goals>
+                     <goal>reports</goal>
+                  </goals>
+               </execution>
+            </executions>
+         </plugin>
+         <plugin>
+            <groupId>com.google.code.maven-replacer-plugin</groupId>
+            <artifactId>replacer</artifactId>
+            <version>1.5.2</version>
+            <executions>
+               <execution>
+                  <phase>process-resources</phase>
+                  <goals>
+                     <goal>replace</goal>
+                  </goals>
+               </execution>
+            </executions>
+            <configuration>
+               <basedir>${target.root.dir}</basedir>
+               <includes>
+                  <include>apiproxy/${project.artifactId}.xml</include>
+               </includes>
+               <replacements>
+                  <replacement>
+                     <token>@description</token>
+                     <value>commit ${git.commit.id} from ${git.branch} branch by ${git.build.user.email}</value>
+                  </replacement>
+               </replacements>
+            </configuration>
+         </plugin>
+         <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>exec-maven-plugin</artifactId>
+            <version>1.3.2</version>
+            <executions>
+               <!-- npm install -->
+               <execution>
+                  <id>npm-install</id>
+                  <phase>initialize</phase>
+                  <goals>
+                     <goal>exec</goal>
+                  </goals>
+                  <configuration>
+                     <executable>npm</executable>
+                     <commandlineArgs>install</commandlineArgs>
+                  </configuration>
+               </execution>
+               <!-- Required: The following will ensure `npm install` is called
+					     before anything else during the 'Clean Lifecycle' -->
+               <execution>
+                  <id>npm install (clean)</id>
+                  <goals>
+                     <goal>exec</goal>
+                  </goals>
+                  <phase>pre-clean</phase>
+                  <configuration>
+                     <executable>npm</executable>
+                     <arguments>
+                        <argument>install</argument>
+                     </arguments>
+                  </configuration>
+               </execution>
+               <!-- Optional: The following will output the npm configuration.
+					     I do this so my CI logs will show the npm information used
+							 for the build -->
+               <execution>
+                  <id>npm config list (validate)</id>
+                  <goals>
+                     <goal>exec</goal>
+                  </goals>
+                  <phase>validate</phase>
+                  <configuration>
+                     <executable>npm</executable>
+                     <arguments>
+                        <argument>config</argument>
+                        <argument>list</argument>
+                     </arguments>
+                  </configuration>
+               </execution>
+               <!-- Integration Testing-->
+               <execution>
+                  <id>integration-tests</id>
+                  <phase>install</phase>
+                  <goals>
+                     <goal>exec</goal>
+                  </goals>
+                  <configuration>
+                     <executable>node_modules/newman/bin/newman.js</executable>
+                     <commandlineArgs>run tests/apiproxy.postman_collection.json -e tests/${apigee.env}.postman_environment.json</commandlineArgs>
+                  </configuration>
+               </execution>
+            </executions>
+         </plugin>
+         <!-- cleaning dirs -->
+         <plugin>
+            <artifactId>maven-clean-plugin</artifactId>
+            <version>2.5</version>
+            <executions>
+               <execution>
+                  <id>auto-clean-init</id>
+                  <phase>initialize</phase>
+                  <goals>
+                     <goal>clean</goal>
+                  </goals>
+               </execution>
+               <execution>
+                  <id>auto-clean-install</id>
+                  <phase>install</phase>
+                  <goals>
+                     <goal>clean</goal>
+                  </goals>
+               </execution>
+            </executions>
+         </plugin>
+      </plugins>
+   </build>
+   <dependencies>
+      <dependency>
+         <groupId>junit</groupId>
+         <artifactId>junit</artifactId>
+         <version>4.8.2</version>
+         <scope>test</scope>
+      </dependency>
+   </dependencies>
+</project>

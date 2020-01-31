@@ -1,0 +1,15 @@
+{
+	"name": "${artifactId}",
+	"description": "${description}",
+	"version": "1.0.0",
+	"devDependencies": {
+		"newman": "^4.5.1"
+	},
+	"repository": {
+		"type": "git",
+		"url": ""
+	},
+	"keywords": [],
+	"author": "",
+	"license": ""
+}

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<APIProxy revision="1" name="${artifactId}">
+    <Basepaths>/${basepath}</Basepaths>
+    <ConfigurationVersion majorVersion="4" minorVersion="0"/>
+    <CreatedAt>1551440047387</CreatedAt>
+    <CreatedBy>defaultUser</CreatedBy>
+    <Description>${description} - @description</Description>
+    <DisplayName>${artifactId}</DisplayName>
+    <LastModifiedAt>1551440047387</LastModifiedAt>
+    <LastModifiedBy>defaultUser</LastModifiedBy>
+    <ManifestVersion>SHA-512:899f5a69d3ca32e7c562cfa0c56599e8db03127a84a93fc1053e0c79b584fd2af4cab68d6a132a910cd8e4481e02402611c46f495b9f115c3fc6ab80e7907431</ManifestVersion>
+    <Policies/>
+    <ProxyEndpoints>
+        <ProxyEndpoint>default</ProxyEndpoint>
+    </ProxyEndpoints>
+    <Resources/>
+    <Spec></Spec>
+    <TargetServers/>
+    <TargetEndpoints>
+        <TargetEndpoint>default</TargetEndpoint>
+    </TargetEndpoints>
+</APIProxy>

@@ -1,0 +1,14 @@
+#Dependency directory
+node_modules/
+target
+
+#Dependency manifest
+package-lock.json
+
+#optional npm cache
+.npm
+
+.DS_Store
+
+.vscode
+

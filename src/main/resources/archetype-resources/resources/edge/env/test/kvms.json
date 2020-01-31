@@ -1,0 +1,12 @@
+[
+    {
+        "entry": [
+            {
+                "name": "sample-kvm",
+                "value": "sample-value"
+            }
+        ],
+        "name": "example_kvm",
+        "encrypted": "true"
+    }
+]
