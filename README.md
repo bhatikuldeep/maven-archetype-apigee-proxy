@@ -27,7 +27,7 @@ Features (in-wishlist)
 1. Basic use
    - open a new terminal;
    - execute this command to generate proxy skeleton -
-     `sh $ mvn archetype:generate -DarchetypeGroupId=io.github.bhatikuldeep -DarchetypeArtifactId=maven-archetype-apigee-proxy -DarchetypeVersion=1.1 -DgroupId=apigee -DartifactId=sample-apigee-proxy`
+     `sh $ mvn archetype:generate -DarchetypeGroupId=io.github.bhatikuldeep -DarchetypeArtifactId=maven-archetype-apigee-proxy -DarchetypeVersion=1.2 -DgroupId=apigee -DartifactId=sample-apigee-proxy`
    - Above command will ask you to enter - `proxy_endpoint`, enter e.g. https://ORGNAME-ENV.apigee.net; where ORGNAME is your apigee org and ENV is the env where you wish to run your postman test after the deployment.
    - This step will create a proxy folder with name - "sample-apigee-proxy", see the `artifactId` argument in above command with `basepath` = "v2/hello-world", `environment` = "test", `description` = "Sample maven-archetype-apigee-proxy API Proxy"
 2. Advanced use
@@ -38,7 +38,7 @@ Features (in-wishlist)
      - `description` (optional, default value = Sample maven-archetype-apigee-proxy API Proxy) and
      - `proxy_endpoint` (required = yes, no default value)
    - now run this command to generate proxy skeleton
-     `bash $ mvn archetype:generate -DarchetypeGroupId=io.github.bhatikuldeep -DarchetypeArtifactId=maven-archetype-apigee-proxy -DarchetypeVersion=1.1 -DgroupId=apigee -DartifactId=sample-apigee-proxy -Dbasepath=v2/hello-world -Denvironment=test -Ddescription="Sample maven-archetype-apigee-proxy API Proxy" -Dproxy_endpoint=https://ORGNAME-ENV.apigee.net`
+     `bash $ mvn archetype:generate -DarchetypeGroupId=io.github.bhatikuldeep -DarchetypeArtifactId=maven-archetype-apigee-proxy -DarchetypeVersion=1.2 -DgroupId=apigee -DartifactId=sample-apigee-proxy -Dbasepath=v2/hello-world -Denvironment=test -Ddescription="Sample maven-archetype-apigee-proxy API Proxy" -Dproxy_endpoint=https://ORGNAME-ENV.apigee.net`
 3. Deployment
    - step 2 will create a `sample-apigee-proxy` folder with apigee edge compatible directory structure;
    - `$ cd sample-apigee-proxy` (or name of the proxy you just created, go to that directory)
